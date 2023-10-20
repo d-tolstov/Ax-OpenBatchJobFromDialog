@@ -1,0 +1,136 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: BatchJobOpenFromDialog_CDT выгружен
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #BatchJobOpenFromDialog_CDT
+    PROPERTIES
+      Name                #BatchJobOpenFromDialog_CDT
+      Origin              #{D53A88D8-D4BD-4D34-B8C4-52B414BD2FD7}
+    ENDPROPERTIES
+    
+    METHODS
+      SOURCE #classDeclaration
+        #class BatchJobOpenFromDialog_CDT
+        #{
+        #}
+      ENDSOURCE
+      SOURCE #addMenuItemButtonsToDialog
+        #static void addMenuItemButtonsToDialog(DialogRunbase _dialog)
+        #{
+        #;
+        #    _dialog.addMenuItemButton(MenuItemType::Display, menuitemDisplayStr(BatchJob), DialogMenuItemGroup::CurrentGrp);
+        #    _dialog.addMenuItemButton(MenuItemType::Display, menuitemDisplayStr(BatchJobHistory), DialogMenuItemGroup::CurrentGrp);
+        #}
+      ENDSOURCE
+      SOURCE #applyFilter2BatchJob
+        #static void applyFilter2BatchJob(
+        #    FormDataSource _formDataSource
+        #)
+        #{
+        #    Object                  dialogForm;
+        #    QueryBuildDataSource    qbds;
+        #    QueryBuildDataSource    qbdsJoin;
+        #    ClassId                 dialogClassId;
+        #
+        #    if ( BatchJobOpenFromDialog_CDT::callerIsDialogForm(_formDataSource.formRun().args()))
+        #    {
+        #        qbds        = _formDataSource.query().dataSourceTable(tableNum(BatchJob));
+        #        qbdsJoin    = qbds.addDataSource( tablenum(Batch));
+        #        qbdsJoin.relations(true);
+        #        qbdsJoin.joinMode( JoinMode::ExistsJoin);
+        #
+        #        dialogForm      = _formDataSource.formRun().args().caller();
+        #        switch (dialogForm.name())
+        #        {
+        #            case formStr(Dialog):
+        #                dialogClassId   = classidget(dialogForm.runBase());
+        #                break;
+        #
+        #            case formStr(SysOperationTemplateForm):
+        #                dialogClassId   = classidget(dialogForm.controller());
+        #                break;
+        #
+        #            default:
+        #                throw Error(error::wrongUseOfFunction(funcName()));
+        #        }
+        #
+        #        findOrCreateRange_W(qbdsJoin, fieldnum(Batch,ClassNumber), int2str(dialogClassId)).status(RangeStatus::Locked);
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #applyFilter2BatchJobHistory
+        #static void applyFilter2BatchJobHistory(
+        #    FormDataSource _formDataSource
+        #)
+        #{
+        #    Object                  dialogForm;
+        #    QueryBuildDataSource    qbds;
+        #    QueryBuildDataSource    qbdsJoin;
+        #    ClassId                 dialogClassId;
+        #
+        #    if ( BatchJobOpenFromDialog_CDT::callerIsDialogForm(_formDataSource.formRun().args()))
+        #    {
+        #        qbds        = _formDataSource.query().dataSourceTable(tableNum(BatchJobHistory));
+        #        qbdsJoin    = qbds.addDataSource( tablenum(BatchHistory));
+        #        qbdsJoin.relations(true);
+        #        qbdsJoin.joinMode( JoinMode::ExistsJoin);
+        #
+        #        dialogForm      = _formDataSource.formRun().args().caller();
+        #        switch (dialogForm.name())
+        #        {
+        #            case formStr(Dialog):
+        #                dialogClassId   = classidget(dialogForm.runBase());
+        #                break;
+        #
+        #            case formStr(SysOperationTemplateForm):
+        #                dialogClassId   = classidget(dialogForm.controller());
+        #                break;
+        #
+        #            default:
+        #                throw Error(error::wrongUseOfFunction(funcName()));
+        #        }
+        #
+        #        findOrCreateRange_W(qbdsJoin, fieldnum(BatchHistory,ClassNumber), int2str(dialogClassId)).status(RangeStatus::Locked);
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #callerIsDialogForm
+        #static boolean callerIsDialogForm(Args _args)
+        #{
+        #    boolean ret;
+        #    Object  formCaller;
+        #    Name    formName;
+        #;
+        #    if ( !_args
+        #      || !_args.caller())
+        #    {
+        #        return ret;
+        #    }
+        #
+        #    formCaller  = _args.caller();
+        #
+        #    if ( classidget(formCaller) != classnum(SysSetupFormRun))
+        #    {
+        #        return ret;
+        #    }
+        #
+        #    formName    = formCaller.name();
+        #    if ( formName != formstr(Dialog))
+        #    if ( formName != formstr(SysOperationTemplateForm))
+        #    if ( !formHasMethod(formCaller,'runBase'))
+        #    {
+        #        return ret;
+        #    }
+        #
+        #    return true;
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END
