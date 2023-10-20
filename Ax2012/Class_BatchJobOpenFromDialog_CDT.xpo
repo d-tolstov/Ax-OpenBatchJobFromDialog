@@ -56,7 +56,14 @@ Formatversion: 1
         #                break;
         #
         #            default:
-        #                throw Error(error::wrongUseOfFunction(funcName()));
+        #                if (formHasMethod(dialogForm,'runBase'))
+        #                {
+        #                    dialogClassId   = classidget(dialogForm.runBase());
+        #                }
+        #                else
+        #                {
+        #                    throw Error(error::wrongUseOfFunction(funcName()));
+        #                }
         #        }
         #
         #        findOrCreateRange_W(qbdsJoin, fieldnum(Batch,ClassNumber), int2str(dialogClassId)).status(RangeStatus::Locked);
@@ -92,7 +99,14 @@ Formatversion: 1
         #                break;
         #
         #            default:
-        #                throw Error(error::wrongUseOfFunction(funcName()));
+        #                if (formHasMethod(dialogForm,'runBase'))
+        #                {
+        #                    dialogClassId   = classidget(dialogForm.runBase());
+        #                }
+        #                else
+        #                {
+        #                    throw Error(error::wrongUseOfFunction(funcName()));
+        #                }
         #        }
         #
         #        findOrCreateRange_W(qbdsJoin, fieldnum(BatchHistory,ClassNumber), int2str(dialogClassId)).status(RangeStatus::Locked);
