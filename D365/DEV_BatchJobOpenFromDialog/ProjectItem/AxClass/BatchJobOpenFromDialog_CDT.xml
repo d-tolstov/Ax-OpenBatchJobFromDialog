@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>BatchJobOpenFromDialog_CDT</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+class BatchJobOpenFromDialog_CDT
+{
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>applyFilter2BatchJob</Name>
+				<Source><![CDATA[
+    static void applyFilter2BatchJob(
+        FormDataSource _formDataSource
+    )
+    {
+        Object                  dialogForm;
+        QueryBuildDataSource    qbdsJoin;
+        ClassId                 dialogClassId;
+        
+        if ( BatchJobOpenFromDialog_CDT::callerIsDialogForm_CDT(_formDataSource.formRun().args()))
+        {
+            QueryBuildDataSource qbds = _formDataSource.query().dataSourceTable(tableNum(BatchJob));
+            qbdsJoin    = qbds.addDataSource( tablenum(Batch));
+            qbdsJoin.relations(true);
+            qbdsJoin.joinMode( JoinMode::ExistsJoin);
+
+            dialogForm      = _formDataSource.formRun().args().caller();
+            switch (dialogForm.name())
+            {
+                case formStr(Dialog):
+                    dialogClassId   = classidget(dialogForm.runBase());
+                    break;
+                
+                case formStr(SysOperationTemplateForm):
+                    dialogClassId   = classidget(dialogForm.controller());
+                    break;
+                
+                default:
+                    throw Error(error::wrongUseOfFunction(funcName()));
+            }
+
+            findOrCreateRange_W( qbdsJoin, fieldnum(Batch,ClassNumber), int2str( dialogClassId)).status(RangeStatus::Locked);
+        }
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>applyFilter2BatchJobHistory</Name>
+				<Source><![CDATA[
+    static void applyFilter2BatchJobHistory(
+        FormDataSource _formDataSource
+    )
+    {
+        Object                  dialogForm;
+        QueryBuildDataSource    qbdsJoin;
+        ClassId                 dialogClassId;
+        
+        if ( BatchJobOpenFromDialog_CDT::callerIsDialogForm_CDT(_formDataSource.formRun().args()))
+        {
+            QueryBuildDataSource qbds = _formDataSource.query().dataSourceTable(tableNum(BatchJobHistory));
+            qbdsJoin    = qbds.addDataSource( tablenum(BatchHistory));
+            qbdsJoin.relations(true);
+            qbdsJoin.joinMode( JoinMode::ExistsJoin);
+
+            dialogForm      = _formDataSource.formRun().args().caller();
+            switch (dialogForm.name())
+            {
+                case formStr(Dialog):
+                    dialogClassId   = classidget(dialogForm.runBase());
+                    break;
+                
+                case formStr(SysOperationTemplateForm):
+                    dialogClassId   = classidget(dialogForm.controller());
+                    break;
+                
+                default:
+                    throw Error(error::wrongUseOfFunction(funcName()));
+            }
+
+            findOrCreateRange_W( qbdsJoin, fieldnum(BatchHistory,ClassNumber), int2str(dialogClassId)).status(RangeStatus::Locked);
+        }
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>callerIsDialogForm_CDT</Name>
+				<Source><![CDATA[
+    static boolean callerIsDialogForm_CDT(Args _args)
+    {
+        boolean ret;
+        Object  formCaller;
+        Name    formName;
+        ;
+        if ( !_args
+          || !_args.caller())
+        {
+            return ret;
+        }
+
+        formCaller  = _args.caller();
+
+        if ( classidget(formCaller) != classnum(FormRun))
+        {
+            return ret;
+        }
+
+        formName    = formCaller.name();
+        if ( formName != formstr(Dialog))
+        if ( formName != formstr(SysOperationTemplateForm))
+        {
+            return ret;
+        }
+
+        return true;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>addMenuItemButtonsToDialog</Name>
+				<Source><![CDATA[
+    static void addMenuItemButtonsToDialog(Object _dialog)
+    {
+    ;
+        if (_dialog is DialogRunBase)
+        {
+            // dialogParm is an actual DialogRunBase, so cast it to the appropriate type.
+            DialogRunBase batchDialog = _dialog;
+
+            batchDialog.addMenuItemButtonBatchTab_CDT(MenuItemType::Display, menuitemDisplayStr(BatchJob));
+            batchDialog.addMenuItemButtonBatchTab_CDT(MenuItemType::Display, menuitemDisplayStr(BatchJobHistory));
+        }
+        if (_dialog is SysOperationDialog)
+        {
+            // dialogParm is an actual SysOperationDialog, so cast it to the appropriate type.
+            SysOperationDialog batchDialog = _dialog;
+
+            batchDialog.addMenuItemButtonBatchTab_CDT(MenuItemType::Display, menuitemDisplayStr(BatchJob));
+            batchDialog.addMenuItemButtonBatchTab_CDT(MenuItemType::Display, menuitemDisplayStr(BatchJobHistory));
+        }
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

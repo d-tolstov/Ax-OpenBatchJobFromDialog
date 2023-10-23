@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>SysOperationDialog_CDT_Extension</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+[ExtensionOf(classstr(SysOperationDialog))]
+final class SysOperationDialog_CDT_Extension
+{
+    #dialog
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>addMenuItemButtonBatchTab_CDT</Name>
+				<Source><![CDATA[
+    void addMenuItemButtonBatchTab_CDT(
+            MenuItemType            _menuItemType,
+            str                     _menuItemName,
+            FormControlName         _name = null)
+    {
+        FormControlName formControlName;
+        Object          buttonGroup;
+
+        if (!_name)
+        {
+            buttons++;
+            formControlName = #PrefixMenuItemButton+'_'+int2str(buttons);
+        }
+        else
+        {
+            formControlName = _name;
+        }
+
+        FormBuildButtonGroupControl findBatchTabPageToolbar()
+        {
+            FormBuildControl toolbar;
+            FormBuildTabPageControl tabPageControl;
+
+            if (!this.batchDialogTabPage())
+            {
+                return null;
+            }
+            tabPageControl = this.batchDialogTabPage().control();
+
+            FormBuildControl child = tabPageControl.controlNum(1);
+            if(child is FormBuildActionPaneControl)
+            {
+                toolbar = child.controlNum(1);
+                if(toolbar is FormBuildButtonGroupControl)
+                {
+                    // use the button group of the current tab page's action pane
+                    buttonGroup = toolbar;
+                }
+            }
+
+            return buttonGroup;
+        }
+
+        boolean menuItemExists()
+        {
+            Counter i;
+            Object ctrl;
+            boolean alreadyExists = false;
+
+            for (i=1; i <= buttonGroup.controlCount() && !alreadyExists; i++)
+            {
+                ctrl = buttonGroup.controlNum(i);
+                if (classidget(ctrl) == classnum(FormBuildFunctionButtonControl) ||
+                    classidget(ctrl) == classnum(FormFunctionButtonControl))
+                {
+                    if (ctrl.menuItemType() == _menuItemType &&
+                        ctrl.menuItemName() == _menuItemName)
+                    {
+                        buttonGroup.visible(true);
+                        alreadyExists = true;
+                    }
+                }
+            }
+
+            return alreadyExists;
+        }
+
+        buttonGroup = findBatchTabPageToolbar();
+
+        if (!buttonGroup)
+        {
+            return;
+        }
+
+        if (!menuItemExists())
+        {
+            FormBuildFunctionButtonControl formButton = buttonGroup.addControl(FormControlType::MenuFunctionButton, _name);
+            formButton.menuItemType(_menuItemType);
+            formButton.menuItemName(_menuItemName);
+        }
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

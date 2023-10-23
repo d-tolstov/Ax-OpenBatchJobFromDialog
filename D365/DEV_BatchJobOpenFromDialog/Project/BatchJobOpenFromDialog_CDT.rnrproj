@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <BuildTasksDirectory Condition=" '$(BuildTasksDirectory)' == ''">$(MSBuildProgramFiles32)\MSBuild\Microsoft\Dynamics\AX</BuildTasksDirectory>
+    <Model>Utils_CDT</Model>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <OutputPath>bin</OutputPath>
+    <SchemaVersion>2.0</SchemaVersion>
+    <GenerateCrossReferences>True</GenerateCrossReferences>
+    <RunAppCheckerRules>False</RunAppCheckerRules>
+    <LogAppcheckerDiagsAsErrors>False</LogAppcheckerDiagsAsErrors>
+    <DeployOnline>False</DeployOnline>
+    <ProjectGuid>{ff2eccea-76a9-4c66-9a5d-018adc63c2c1}</ProjectGuid>
+    <Name>BatchJobOpenFromDialog_CDT</Name>
+    <RootNamespace>BatchJobOpenFromDialog_CDT</RootNamespace>
+    <StartupType>Class</StartupType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <Configuration>Debug</Configuration>
+    <DBSyncInBuild>True</DBSyncInBuild>
+    <GenerateFormAdaptors>False</GenerateFormAdaptors>
+    <Company>
+    </Company>
+    <Partition>initial</Partition>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DataEntityExpandParentChildRelations>False</DataEntityExpandParentChildRelations>
+    <DataEntityUseLabelTextAsFieldName>False</DataEntityUseLabelTextAsFieldName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="AxClass\BatchInfo_CDT_Extension">
+      <SubType>Content</SubType>
+      <Name>BatchInfo_CDT_Extension</Name>
+      <Link>BatchInfo_CDT_Extension</Link>
+    </Content>
+    <Content Include="AxClass\BatchJobEnhancedForm_CDT_dsBatchJob_Extension">
+      <SubType>Content</SubType>
+      <Name>BatchJobEnhancedForm_CDT_dsBatchJob_Extension</Name>
+      <Link>BatchJobEnhancedForm_CDT_dsBatchJob_Extension</Link>
+    </Content>
+    <Content Include="AxClass\BatchJobForm_CDT_dsBatchJob_Extension">
+      <SubType>Content</SubType>
+      <Name>BatchJobForm_CDT_dsBatchJob_Extension</Name>
+      <Link>BatchJobForm_CDT_dsBatchJob_Extension</Link>
+    </Content>
+    <Content Include="AxClass\BatchJobHistoryForm_CDT_dsBatchJobHistory_Extension">
+      <SubType>Content</SubType>
+      <Name>BatchJobHistoryForm_CDT_dsBatchJobHistory_Extension</Name>
+      <Link>BatchJobHistoryForm_CDT_dsBatchJobHistory_Extension</Link>
+    </Content>
+    <Content Include="AxClass\BatchJobOpenFromDialog_CDT">
+      <SubType>Content</SubType>
+      <Name>BatchJobOpenFromDialog_CDT</Name>
+      <Link>BatchJobOpenFromDialog_CDT</Link>
+    </Content>
+    <Content Include="AxClass\DialogRunbase_CDT_Extension">
+      <SubType>Content</SubType>
+      <Name>DialogRunbase_CDT_Extension</Name>
+      <Link>DialogRunbase_CDT_Extension</Link>
+    </Content>
+    <Content Include="AxClass\SysOperationDialog_CDT_Extension">
+      <SubType>Content</SubType>
+      <Name>SysOperationDialog_CDT_Extension</Name>
+      <Link>SysOperationDialog_CDT_Extension</Link>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.Common.targets" />
+  <Import Project="$(BuildTasksDirectory)\Microsoft.Dynamics.Framework.Tools.BuildTasks.targets" />
+</Project>
